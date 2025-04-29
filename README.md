@@ -1,2 +1,2 @@
-# JsTask5_weatherChecker
+# JsTask6_weatherChecker
 Uploading Assignments
