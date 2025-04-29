@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Weather Checker App</h1>
+    <input type="text" id="cityInput" placeholder="Enter city name" />
+    <button onclick="checkWeather()">Check Weather</button>
+    <div id="result"></div>
+    <script>
+      async function checkWeather() {
+        const city_name = document.getElementById("cityInput").value;
+        const resultDiv = document.getElementById("result");
+
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${"86644bd6ce5413368ce80871598b2865"}&units=metric`;
+        let option = { method: "GET" };
+        if (city_name == "") {
+          resultDiv.innerText = "You must enter a city name!";
+          return;
+        }
+
+        try {
+          const response = await fetch(url, option);
+          const data = await response.json();
+
+          //Using Optional Chaining
+          const temperature = data?.main?.temp;
+          const description = data?.weather?.[0]?.description;
+
+          if (temperature && description) {
+            // resultDiv.innerHTML = `🌡 Temperature: ${temperature}°C<br>🌥 Description: ${description}`;
+            resultDiv.innerHTML = `<span style="color: orange;">🌡Temperature</span>: <span style="color: green;">${temperature}°C</span><br> <span  style="color: blue;">🌥 Description:</span> <span style="color: green;">${description}</span>`;
+          } else {
+            resultDiv.innerText = "Weather data is incomplete!";
+          }
+        } catch (err) {
+          console.error(err);
+          resultDiv.innerText = `${err.message}`;
+        }
+      }
+    </script>
+  </body>
+</html>
